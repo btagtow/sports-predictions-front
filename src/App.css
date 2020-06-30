@@ -1,38 +1,104 @@
+body {
+  background-color: black;
+  color: white
+}
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
+  text-align: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+.dropdown {
+  justify-content: center;
+  width: fit-content;
+  height: 100px;
+  flex-direction: column;
+  background-color: black;
+  color: black;
+}
+.dropdown-container {
+  display: flex;
+  justify-content: center;
+  float: left;
+}
+.dropdown-button{
+  background-color: black;
   color: white;
+  padding: 10px;
+  width: 350px;
+}
+.dropdown-button:hover{
+  color: black;
+  background-color: white;
+}
+.sport-selector{
+  display: flex;
+  justify-content: space-evenly;
+}
+.league-button-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  
+}
+.league-button{
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border: 0;
+}
+.league-button:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.card-container{
+  width: 50%; 
+  /* display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;  */
+}
+.game-card{
+  width: 300px;
+  height: 200px;
+  box-shadow: 5px 5px 5px rgb(114, 114, 114);
+  border-radius: 5px;
+  padding: 100px;
+  background-color: rgb(76, 76, 76);
+  color: whitesmoke;
+  margin-bottom: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.all-games-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
+
+.selected-game-card{
+  width: 300px;
+  height: 150px;
+  margin: 10px 10px 10px 10px;
+  box-shadow: 5px 5px 5px rgb(114, 114, 114);
+  border-radius: 5px;
+  padding: 50px;
+  background-color: rgb(155, 35, 35);
+  color: whitesmoke;
+}
+
+.winner-button-container{
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px 0 10px
+}
+.game-button{
+  padding: 0 50px 0 50px;
+}
+.game-button:hover{
+  background-color: maroon;
+  color: white;
+  cursor: pointer;
+}
+
