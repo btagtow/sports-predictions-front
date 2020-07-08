@@ -10,7 +10,7 @@ export default function GameListings(props) {
 
     const message = () => {
         if (gameList[0]) {
-            return <h3>{leagueName} games:</h3>
+            return <h3>Upcoming {leagueName} games:</h3>
         } else {
             return <h3>No {leagueName} games available. Please try another league.</h3>
         }
@@ -19,19 +19,15 @@ export default function GameListings(props) {
     const games = (
         gameList.map(game => {
             return (
-                <div>
                     <GameCard game={game} key={game.idEvent}  selectGame= {selectGame} />
-                </div>
             )
         })
     )
 
 
     return (
-        <div className = "card-container">
-            <div>{message()}
+            <div className = "card-container">{message()}
                 {games}
             </div>
-        </div>
     )
 }

@@ -4,6 +4,7 @@ import GameListings from './components/containers/GameListings'
 import SelectedGames from './components/containers/SelectedGames'
 import LeagueDropdown from './components/dropdowns/LeagueDropdown'
 import SelectionDropdown from './components/dropdowns/SelectionDropdown'
+import Group from './components/Group'
 
 
 class App extends Component {
@@ -86,8 +87,6 @@ class App extends Component {
 
   currentLeague = () => this.state.leagues.find(league => league.selected === true)
 
-  mounted = () => this.componentDidMount()
-
   render(){
 
     return (
@@ -98,11 +97,12 @@ class App extends Component {
           <LeagueDropdown leagues={this.state.leagues} switchLeague = {this.switchLeague} />
         </div>
         <div className="all-games-container">
-          <GameListings currentLeague = {this.currentLeague()} selectGame= {this.selectGame} mounted={this.mounted}/>
+          <GameListings currentLeague = {this.currentLeague()} selectGame= {this.selectGame} />
 
           <div className="selected-games">
             <SelectedGames selectedGames={this.state.selectedGames} removeSelectedGame={this.removeSelectedGame} />
           </div>
+          {/* <Group /> */}
           {/* <LeagueButtons leagues={this.state.leagues} switchLeague = {this.switchLeague} /> */}
         </div>
 

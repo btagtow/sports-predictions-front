@@ -55,13 +55,12 @@ body {
 }
 
 .card-container{
-  width: 50%; 
-  /* display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;  */
+  width: auto; 
+  display: flex;
+  flex-direction: column; 
 }
 .game-card{
-  width: 300px;
+  width: 150px;
   height: 200px;
   box-shadow: 5px 5px 5px rgb(114, 114, 114);
   border-radius: 5px;
@@ -77,24 +76,16 @@ body {
   justify-content: space-between;
 }
 
-.selected-game-card{
-  width: 300px;
-  height: 150px;
-  margin: 10px 10px 10px 10px;
-  box-shadow: 5px 5px 5px rgb(114, 114, 114);
-  border-radius: 5px;
-  padding: 50px;
-  background-color: rgb(155, 35, 35);
-  color: whitesmoke;
-}
-
 .winner-button-container{
   display: flex;
   flex-direction: column;
   padding: 0 10px 0 10px
 }
 .game-button{
-  padding: 0 50px 0 50px;
+  padding: 0 10px 0 10px;
+  background-color: rgb(114, 114, 114);
+  color: white;
+
 }
 .game-button:hover{
   background-color: maroon;
@@ -102,3 +93,10 @@ body {
   cursor: pointer;
 }
 
+.game-card-container{
+  width: inherit;
+}
+
+.group-button{
+  height: 50px;
+}

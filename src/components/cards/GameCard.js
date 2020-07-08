@@ -43,7 +43,7 @@ export default function GameCard(props) {
 
     console.log(game)
     return (
-        <div>
+        <div className="game-card-container">
             {homeVsAway()}
         </div>        
     )
