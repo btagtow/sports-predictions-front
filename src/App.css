@@ -10,23 +10,19 @@ body {
   justify-content: center;
 }
 .dropdown {
-  justify-content: center;
-  width: fit-content;
   height: 100px;
-  flex-direction: column;
   background-color: black;
   color: black;
 }
 .dropdown-container {
   display: flex;
   justify-content: center;
-  float: left;
 }
 .dropdown-button{
   background-color: black;
   color: white;
   padding: 10px;
-  width: 350px;
+  width: 400px;
 }
 .dropdown-button:hover{
   color: black;
@@ -42,18 +38,26 @@ body {
   justify-content: center;
   
 }
-.league-button{
+.drop-button{
   background-color: black;
   color: white;
   padding: 10px;
   border: 0;
 }
-.league-button:hover {
+.drop-button:hover {
   background-color: white;
   color: black;
   cursor: pointer;
 }
+/* .dropdown-and-forms {
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+} */
 
+.forms{
+  margin: right;
+}
 .card-container{
   width: auto; 
   display: flex;
@@ -61,19 +65,27 @@ body {
 }
 .game-card{
   width: 150px;
-  height: 200px;
+  height: 250px;
   box-shadow: 5px 5px 5px rgb(114, 114, 114);
   border-radius: 5px;
-  padding: 100px;
+  padding: 50px 50px 100px 50px;
   background-color: rgb(76, 76, 76);
   color: whitesmoke;
   margin-bottom: 10px;
+  
 }
 
 .all-games-container{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  padding: 0 20% 0 20%;
+} 
+
+.game-listings{
+  margin: 0 100px 0 100px;
+}
+.selected-games{
+  margin: -20px 100px -20px 100px;
 }
 
 .winner-button-container{
@@ -99,4 +111,14 @@ body {
 
 .group-button{
   height: 50px;
+}
+
+.link{
+  color: white;
+}
+
+.form{
+  width: 400px;
+  display: flex;
+  justify-content: flex-start;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import LeagueButton from'../LeagueButton'
 
 export default function LeagueButtons (props) {
@@ -8,7 +8,7 @@ export default function LeagueButtons (props) {
 
     const showButtons = leagues.map(league=> {
         return (
-            <LeagueButton id={league.id} key={league.id} name={league.name} emoji={league.emoji} handleChange={switchLeagues} league={league}/>
+            <LeagueButton games={league.games} id={league.id} key={league.id} name={league.name} emoji={league.emoji} handleChange={switchLeagues} league={league}/>
         )
     })
 

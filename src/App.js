@@ -3,9 +3,7 @@ import './App.css';
 import GameListings from './components/containers/GameListings'
 import SelectedGames from './components/containers/SelectedGames'
 import LeagueDropdown from './components/dropdowns/LeagueDropdown'
-import SelectionDropdown from './components/dropdowns/SelectionDropdown'
-import Group from './components/Group'
-
+import Auth from './components/auth/Auth'
 
 class App extends Component {
   state = {
@@ -17,6 +15,11 @@ class App extends Component {
       {name: 'NBA', id: 4387, emoji: '🏀' , games: [], selected: false},
       {name: 'NHL', id: 4380, emoji: '🏒' , games: [], selected: false}, 
     ],
+    failedToFetch: [],
+    fetchComplete: false,
+    loginForm: false,
+    signupForm: false
+    //failed to fetch identified by league id 
   }
   selectGame = (game) => {
 
@@ -39,7 +42,7 @@ class App extends Component {
     })
   }
 
-  leagueIndex = leagueId => this.state.leagues.findIndex(league =>  league.id == leagueId )
+  leagueIndex = leagueId => this.state.leagues.findIndex(league =>  league.id === leagueId )
 
   addGames = (games, leagueId) => {
     let league = this.leagueIndex(leagueId)
@@ -52,14 +55,17 @@ class App extends Component {
 
   switchLeague = (id) => {
     let newLeagues = [...this.state.leagues]
-    let league = newLeagues[this.leagueIndex(id)]
-    let otherLeagues = this.state.leagues.map(league => {
-      if (league.id !== id){return league.selected = false}
+    this.state.leagues.map(league => {
+      return (league.id !== id ? league.selected = false : null)
     })
-    league = ({...league, selected: true}, {...otherLeagues}) 
     this.setState({
       leagues: newLeagues
     })
+  }
+
+  checkForGames = (games, leagueId) => {
+    games.events ? this.addGames(games, leagueId) : this.setState({failedToFetch: [...this.state.failedToFetch, leagueId] })
+
   }
 
   fetchGames = () => {
@@ -68,17 +74,39 @@ class App extends Component {
     let mlbId = 4424
     let nbaId = 4387
     let nhlId = 4380
-      fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${eplId}`)
-        .then(response => response.json())
-        .then(games => {  
-          this.addGames(games, eplId)
-        })
+          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${eplId}`)
+            .then(response => response.json())
+            .then(games => {  
+              this.checkForGames(games, eplId)
+            })
         .then(
-      fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${nflId}`)
-        .then(response => response.json())
-        .then(games => {
-          this.addGames(games, nflId)
-    }))
+          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${nflId}`)
+            .then(response => response.json())
+            .then(games => {
+              this.checkForGames(games, nflId)
+        }))
+        .then(
+          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${mlbId}`)
+            .then(response => response.json())
+            .then(games => {
+              this.checkForGames(games, mlbId)
+            }))
+        .then(
+          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${nbaId}`)
+            .then(response => response.json())
+            .then(games => {
+              this.checkForGames(games, nbaId)
+            }))
+        .then(
+          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${nhlId}`)
+            .then(response => response.json())
+            .then(games => {
+              this.checkForGames(games, nhlId)
+            }))
+          .then(
+            this.setState({fetchComplete: true})
+          )
+        .catch(error => this.setState({error: error}))
   }
 
   componentDidMount(){
@@ -87,17 +115,38 @@ class App extends Component {
 
   currentLeague = () => this.state.leagues.find(league => league.selected === true)
 
+  fetchStatus = () => this.state.fetchComplete
+
+  // toggleLogin = () => this.state.loginForm ? this.setState({loginForm: false}) : this.setState({loginForm: true, signupForm: false})
+  // toggleSignup = () => this.state.signupForm ? this.setState({signupForm: false}) : this.setState({signupForm: true, loginForm: false})
+
+  showSignupForm = () => this.state.signupForm
+  showLoginForm = () => this.state.loginForm
+
   render(){
 
     return (
 
       <div className="App">
         <h1>Sports Predictor</h1>
-        <div className="dropdown-container">
-          <LeagueDropdown leagues={this.state.leagues} switchLeague = {this.switchLeague} />
+        <div className="dropdown-and-forms">
+          <div className="dropdown-container">
+            <LeagueDropdown leagues={this.state.leagues} switchLeague = {this.switchLeague} />
+            <Auth toggleLogin={this.toggleLogin} toggleSignup={this.toggleSignup} 
+              
+            />
+          </div>
+          {/* <div className="forms">
+            <Form loginForm={this.showLoginForm()} signupForm={this.showSignupForm()} />
+
+          </div> */}
+
         </div>
         <div className="all-games-container">
-          <GameListings currentLeague = {this.currentLeague()} selectGame= {this.selectGame} />
+          <div className="game-listings">
+            <GameListings currentLeague = {this.currentLeague()} selectGame= {this.selectGame} fetchComplete={this.fetchStatus()} />
+
+          </div>
 
           <div className="selected-games">
             <SelectedGames selectedGames={this.state.selectedGames} removeSelectedGame={this.removeSelectedGame} />
