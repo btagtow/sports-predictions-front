@@ -5,7 +5,8 @@ const usersURL = 'http://localhost:3000/users'
 class Signup extends React.Component {
     state = {
         username: "",
-        password: ""
+        password: "",
+        betting_points: 100
     }
 
     handleChange = event => {
@@ -24,7 +25,20 @@ class Signup extends React.Component {
             body: JSON.stringify({user: this.state})
         })
         .then(response => response.json())
-        .then(result => localStorage.setItem("token", result.token))
+        .then(result => {
+            // localStorage.setItem("token", result.token)
+            console.log(result)
+            if (result.message.username){
+                alert(`username ${result.message.username}`)
+            } else if (result.message.password){
+                alert(`password ${result.message.password}`)
+            } else {
+                alert(result.message)
+                localStorage.setItem("token", result.token) 
+                localStorage.setItem("user_id", result.user_id) 
+                this.props.setisLoginShown(true)
+            }
+        })
         event.target.reset()
 
 
@@ -53,7 +67,7 @@ class Signup extends React.Component {
 
                     />
 
-                    <input type="submit" value="sign up!" />
+                    <input type="submit" value="sign up!" className="auth-button" />
                 </form>
             </div>
             

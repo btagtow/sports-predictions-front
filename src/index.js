@@ -4,6 +4,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// window.onbeforeunload = function() {
+//   localStorage.removeItem("token");
+//   return;
+// };
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

@@ -1,4 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+.headline{
+  font-family: 'Bebas Neue', cursive;
+  font-size: 53px;
+}
 body {
+  display: grid;
   background-color: black;
   color: white
 }
@@ -49,14 +55,25 @@ body {
   color: black;
   cursor: pointer;
 }
-/* .dropdown-and-forms {
+.error-message{
+  color: white;
+}
+.form{
+  width: 400px;
   display: flex;
-  flex-direction: column;
-  height: 150px;
-} */
+  justify-content: center;
+  padding-top:5px
 
-.forms{
-  margin: right;
+}
+.auth-button{
+  width: 70px
+}
+.error-message{
+  color: white;
+}
+.game-listings{
+  display: flex;
+  justify-content: flex-start;
 }
 .card-container{
   width: auto; 
@@ -64,40 +81,45 @@ body {
   flex-direction: column; 
 }
 .game-card{
-  width: 150px;
+  width: 200px;
   height: 250px;
   box-shadow: 5px 5px 5px rgb(114, 114, 114);
   border-radius: 5px;
-  padding: 50px 50px 100px 50px;
+  padding: 25px 50px 100px 50px;
   background-color: rgb(76, 76, 76);
   color: whitesmoke;
-  margin-bottom: 10px;
+  margin: 10px 0 10px;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   
 }
 
 .all-games-container{
   display: flex;
   flex-direction: row;
-  padding: 0 20% 0 20%;
-} 
-
-.game-listings{
-  margin: 0 100px 0 100px;
+  justify-content: space-around;
+  margin: 0 20% 0 20% 
 }
-.selected-games{
-  margin: -20px 100px -20px 100px;
+.game-listings-selected{
+  display: flex;
+  justify-content: flex-end;
+}
+.filler{
+  width: 20%;
 }
 
-.winner-button-container{
+.game-button-container{
   display: flex;
   flex-direction: column;
-  padding: 0 10px 0 10px
+  padding: 0 10px 0 10px;
+  width: 140px;
 }
 .game-button{
   padding: 0 10px 0 10px;
   background-color: rgb(114, 114, 114);
   color: white;
-
 }
 .game-button:hover{
   background-color: maroon;
@@ -108,6 +130,24 @@ body {
 .game-card-container{
   width: inherit;
 }
+.no-games-message{
+  width: 300px;
+
+}
+
+.user-games{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.refresh-button{
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+
+}
 
 .group-button{
   height: 50px;
@@ -117,8 +157,3 @@ body {
   color: white;
 }
 
-.form{
-  width: 400px;
-  display: flex;
-  justify-content: flex-start;
-}

@@ -1,9 +1,10 @@
 import React from 'react'
 
-export default function LeagueButton({ games, id, name, emoji, league, handleChange }) { 
+export default function LeagueButton({ id, name, emoji, league, handleChange, resetProfile }) { 
 
     function handleClick(){
         league.selected = true
+        resetProfile()
         return handleChange(league)
     }
     
