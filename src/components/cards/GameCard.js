@@ -6,6 +6,7 @@ export default function GameCard(props) {
     function handleClick(event){
         game.selectedWinnerId = event.target.id
         game.selectedWinnerString = event.target.value
+        game.bettingPoints = 0
         return selectGame(game)
     }
 
@@ -20,7 +21,7 @@ export default function GameCard(props) {
                 <div className = "game-card" key={game.idEvent}>
                 <h3>{game.strEventAlternate}</h3>
                     {eventDate}
-                    <div className="winner-button-container">
+                    <div className="game-button-container">
                         {awayButton}
                         {homeButton}
                     </div>
@@ -31,7 +32,7 @@ export default function GameCard(props) {
                 <div className = "game-card" key={game.idEvent}>
                     <h3>{game.strHomeTeam} vs. {game.strAwayTeam}</h3>
                     {eventDate}                    
-                    <div className="winner-button-container">
+                    <div className="game-button-container">
                         {homeButton}
                         {awayButton}
                     </div>

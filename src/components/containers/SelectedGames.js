@@ -1,21 +1,21 @@
 import React from 'react'
-import SelectedGame from '../cards/SelectedGameCard'
 
-export default function SelectedGames(props) {
-    const { selectedGames, removeSelectedGame } = props
+import SelectedGameCard from '../cards/SelectedGameCard'
 
-    const message = (selectedGames[0]) ? <h3>Your picks: </h3> : null
+export default function SelectedGames (props) {
+    const { selectedGames, submitSelectedGame, removeSelectedGame } = props
 
-    const displayGames = selectedGames.map(game => {
+    const message = () => selectedGames[0] ? <h3>Your picks: </h3> : <h3>Unsubmitted selections will appear here:</h3>
+
+    const displayGames = () => selectedGames.map(game =>  <SelectedGameCard game={game} submitSelectedGame={submitSelectedGame} removeSelectedGame={removeSelectedGame} />)
+
         return (
-            <SelectedGame game={game} removeSelectedGame={removeSelectedGame}/>
+            <div>
+                <div className="card-container">
+                    {message()}
+                    {displayGames()}
+                </div>
+            </div>
         )
-    })
-    
-    return (
-        <div>{message}
-            <div className="card-container">{displayGames}</div>
-        </div>
-    )
 }
 

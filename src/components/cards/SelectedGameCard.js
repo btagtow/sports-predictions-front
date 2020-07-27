@@ -1,17 +1,49 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 export default function SelectedGame(props) {
 
-    const { game, removeSelectedGame } = props
 
-    function handleClick(){
+
+    const { game, submitSelectedGame, removeSelectedGame } = props
+
+    const [points, setPoints] = useState(game.bettingPoints)
+
+    function handleSubmit(){
+        submitSelectedGame({...game, points_allocated: points})
+    }
+
+    function handleRemove(){
         removeSelectedGame(game)
     } 
+
+    function addPoints(num) {
+        game.bettingPoints = parseInt(game.bettingPoints + num)
+        return game 
+    }
+
+    const addFivePoints = () => {
+        setPoints(points+5)
+        addPoints(5)
+    }
+    const addTenPoints = () => {
+        addPoints(10)
+    }
     return (
         <div className = "game-card" key={game.idEvent}>
                 <p>{game.strEventAlternate}</p>
-                <h2>Selected winner: {game.selectedWinnerString}</h2>
-                <button onClick={handleClick} className="game-button">Remove Selection</button>
+                <h3>Selected winner: 
+                    <br></br> 
+                    {game.selectedWinnerString}
+                </h3>
+                <div className="game-button-container">
+                    <button onClick={addFivePoints}>Bet 5 points</button>
+                    <button onClick={addTenPoints}>Bet 10 points</button>
+                    <button onClick={handleSubmit} className="game-button">Submit Selection</button>
+                    <button onClick={handleRemove} className="game-button">Remove Selection</button>
+                    <p>Points allocated: 
+                        {points}
+                    </p>
+                </div>
                 <p>{game.dateEvent} at {game.strTime}</p>
         </div>   
     )

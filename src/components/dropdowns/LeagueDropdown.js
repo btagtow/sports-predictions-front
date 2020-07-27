@@ -4,6 +4,8 @@ import LeagueButtons from '../containers/LeagueButtonsContainer';
 function LeagueDropdown(props) {
   const [isShown, setIsShown] = useState(false);
 
+  const {leagues, switchLeague, resetProfile, isProfile} = props
+
 
   return (
     <div 
@@ -12,11 +14,11 @@ function LeagueDropdown(props) {
     onMouseLeave={() => setIsShown(false)}
     >
       <button className="dropdown-button">
-        Change League
+        {!isProfile ? "Select League" : "Make Picks"}
       </button>
       {isShown && (
         <div>
-          <LeagueButtons leagues={props.leagues} switchLeague = {props.switchLeague} />
+          <LeagueButtons leagues={leagues} switchLeague = {switchLeague} resetProfile={resetProfile}/>
         </div>
       )}
     </div>

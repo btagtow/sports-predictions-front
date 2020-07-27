@@ -11,7 +11,7 @@ export default function Group (){
     return (
         <>
             <button className="group-button" onClick={addGroupMember}>Add a group member</button>
-            {groupMembers}
+            {/* {groupMembers} */}
         </>
         
     )

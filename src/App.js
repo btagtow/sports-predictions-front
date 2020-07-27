@@ -1,24 +1,55 @@
 import React, { Component } from 'react';
 import './App.css';
+
 import GameListings from './components/containers/GameListings'
 import SelectedGames from './components/containers/SelectedGames'
 import LeagueDropdown from './components/dropdowns/LeagueDropdown'
 import Auth from './components/auth/Auth'
+import UserProfileButton from './components/dropdowns/UserProfileButton';
+import Profile from './components/user/Profile';
+
+const selectedGamesURL = `http://localhost:3000/game_selections`
+
+const leagueInfo = {
+  epl: {
+    id: 4328, 
+    url: `https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=4328`
+  },
+  nfl: {
+    id: 4391, 
+    url: `https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=4391`
+  },
+  mlb: {
+    id: 4424, 
+    url: `https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=4424`
+  },
+  nba: {
+    id: 4387, 
+    url: `https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=4387`
+  },
+  nhl: {
+    id: 4380, 
+    url: `https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=4380`
+  },
+}
+
 
 class App extends Component {
   state = {
     selectedGames: [],
     leagues: [
-      {name: 'EPL', id: 4328, emoji: '⚽️' , games: [], selected: true},
+      {name: 'EPL', id: 4328, emoji: '⚽️' , games: [], selected: false},
       {name: 'NFL', id: 4391, emoji: '🏈' , games: [], selected: false},
-      {name: 'MLB', id: 4424, emoji: '⚾️' , games: [], selected: false},
+      {name: 'MLB', id: 4424, emoji: '⚾️' , games: [], selected: true},
       {name: 'NBA', id: 4387, emoji: '🏀' , games: [], selected: false},
       {name: 'NHL', id: 4380, emoji: '🏒' , games: [], selected: false}, 
     ],
     failedToFetch: [],
-    fetchComplete: false,
-    loginForm: false,
-    signupForm: false
+    isLoggedIn: false,
+    isProfile: false,
+    currentUserProfile: {}
+    // loginForm: false,
+    // signupForm: false
     //failed to fetch identified by league id 
   }
   selectGame = (game) => {
@@ -35,13 +66,46 @@ class App extends Component {
     }
   }
 
-  removeSelectedGame = (game) => {
-    let newSelectedGames = this.state.selectedGames.filter(selectedGame => game !== selectedGame)
-    this.setState({
-      selectedGames: newSelectedGames
-    })
+  submitSelectedGame = (game) => {
+    if (this.state.isLoggedIn){
+
+      
+      fetch(selectedGamesURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.token}`
+        },
+        body: JSON.stringify(game)
+      })
+      .then(response => response.json())
+      .then(result => {
+        result.message === "Accepted" ? alert("Selection submitted") : alert("Failed to submit, try refreshing the page")
+      })
+      .then(this.updateSelectedGames(game))
+    } else {
+      alert("Log in to submit your picks")
+    }
   }
 
+  //removes game on selection menu
+  removeSelectedGame = (game) => {
+    this.updateSelectedGames(game)
+  }
+  
+  //deletes pick that has been submitted
+  deleteGame = game => {
+    fetch(`http://localhost:3000/game_selections/${game.id}`, {
+      method: "DELETE", 
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.token}`
+      }
+    })
+    .then(console.log)
+  }
+
+  
   leagueIndex = leagueId => this.state.leagues.findIndex(league =>  league.id === leagueId )
 
   addGames = (games, leagueId) => {
@@ -65,48 +129,23 @@ class App extends Component {
 
   checkForGames = (games, leagueId) => {
     games.events ? this.addGames(games, leagueId) : this.setState({failedToFetch: [...this.state.failedToFetch, leagueId] })
-
   }
 
+  fetchFrom = (leagueAbr) => {
+    return(
+     fetch(leagueInfo[leagueAbr].url)
+      .then(response => response.json())
+      .then(games => {  
+        this.checkForGames(games, leagueInfo[leagueAbr].id)
+      })
+    )
+  }
   fetchGames = () => {
-    let eplId = 4328
-    let nflId = 4391
-    let mlbId = 4424
-    let nbaId = 4387
-    let nhlId = 4380
-          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${eplId}`)
-            .then(response => response.json())
-            .then(games => {  
-              this.checkForGames(games, eplId)
-            })
-        .then(
-          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${nflId}`)
-            .then(response => response.json())
-            .then(games => {
-              this.checkForGames(games, nflId)
-        }))
-        .then(
-          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${mlbId}`)
-            .then(response => response.json())
-            .then(games => {
-              this.checkForGames(games, mlbId)
-            }))
-        .then(
-          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${nbaId}`)
-            .then(response => response.json())
-            .then(games => {
-              this.checkForGames(games, nbaId)
-            }))
-        .then(
-          fetch(`https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${nhlId}`)
-            .then(response => response.json())
-            .then(games => {
-              this.checkForGames(games, nhlId)
-            }))
-          .then(
-            this.setState({fetchComplete: true})
-          )
-        .catch(error => this.setState({error: error}))
+        this.fetchFrom("epl")
+        this.fetchFrom("nfl")
+        this.fetchFrom("mlb")
+        this.fetchFrom("nhl")
+        this.fetchFrom("nba")
   }
 
   componentDidMount(){
@@ -115,46 +154,108 @@ class App extends Component {
 
   currentLeague = () => this.state.leagues.find(league => league.selected === true)
 
-  fetchStatus = () => this.state.fetchComplete
+  updateSelectedGames = (game) => {
+    let newSelectedGames = this.state.selectedGames.filter(selectedGame => game.id !== selectedGame.id)
+    this.setState({
+      selectedGames: newSelectedGames
+    })
+  }
 
-  // toggleLogin = () => this.state.loginForm ? this.setState({loginForm: false}) : this.setState({loginForm: true, signupForm: false})
-  // toggleSignup = () => this.state.signupForm ? this.setState({signupForm: false}) : this.setState({signupForm: true, loginForm: false})
+  toggleLoggedin = (boo) => {
+    this.setState({
+      isLoggedIn: boo
+    })
+  }
 
-  showSignupForm = () => this.state.signupForm
-  showLoginForm = () => this.state.loginForm
+
+
+  toggleProfileShown = () => {
+    const regularContainer = 
+      <div className="main-container">
+          <div className="filler">
+          </div>
+          <div className="all-games-container">
+            <GameListings currentLeague = {this.currentLeague()} selectGame= {this.selectGame} />
+            <SelectedGames selectedGames={this.state.selectedGames} submitSelectedGame={this.submitSelectedGame} removeSelectedGame={this.removeSelectedGame} />
+          </div>
+      </div>
+    if (this.state.isLoggedIn){
+      if (this.state.isProfile) {
+        return (
+          <div className="main-container">
+            <Profile userProfile={this.state.currentUserProfile} refreshUserProfile={this.refreshUserProfile} deleteGame={this.deleteGame}/>
+          </div>
+          )
+      } else if (!this.state.isProfile){ 
+        return (
+          <div>
+            <h4>Your available betting points: {this.state.currentUserProfile.betting_points}</h4>
+            {regularContainer}
+          </div>
+        )
+        
+      } else {
+        return regularContainer
+      }
+    } else {
+      return regularContainer
+    }
+    
+    }
+  
+
+    toggleMainContainer = () => {
+      this.setState({
+        isProfile: !this.state.isProfile
+      })
+    }
+
+    setUserProfile = (user) => {
+      this.setState({
+        currentUserProfile: user
+      })
+    }
+
+    refreshUserProfile = () => {
+      fetch(`http://localhost:3000/users/${localStorage.user_id}`, {
+        method: "GET", 
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.token}`
+        }
+      })
+        .then(response => response.json())
+        .then(result => this.setState({currentUserProfile: result}))
+          // {
+          // this.setState({
+          //   currentUserProfile:result
+          // })
+        
+      
+    }
+
+
+    resetProfile = () => {
+      this.setState({isProfile: false})
+    }
+    
 
   render(){
+
+    console.log()
 
     return (
 
       <div className="App">
-        <h1>Sports Predictor</h1>
+        <h1 className="headline">Sports Predictor</h1>
         <div className="dropdown-and-forms">
           <div className="dropdown-container">
-            <LeagueDropdown leagues={this.state.leagues} switchLeague = {this.switchLeague} />
-            <Auth toggleLogin={this.toggleLogin} toggleSignup={this.toggleSignup} 
-              
-            />
+            {this.state.isLoggedIn ? <UserProfileButton toggleMainContainer={this.toggleMainContainer} isProfile={this.state.isProfile} /> : null}
+            <LeagueDropdown leagues={this.state.leagues} switchLeague = {this.switchLeague} resetProfile={this.resetProfile} isProfile={this.state.isProfile} />
+            <Auth toggleLoggedin={this.toggleLoggedin} username={this.state.currentUserProfile.username} setUserProfile= {this.setUserProfile} resetProfile={this.resetProfile} />
           </div>
-          {/* <div className="forms">
-            <Form loginForm={this.showLoginForm()} signupForm={this.showSignupForm()} />
-
-          </div> */}
-
         </div>
-        <div className="all-games-container">
-          <div className="game-listings">
-            <GameListings currentLeague = {this.currentLeague()} selectGame= {this.selectGame} fetchComplete={this.fetchStatus()} />
-
-          </div>
-
-          <div className="selected-games">
-            <SelectedGames selectedGames={this.state.selectedGames} removeSelectedGame={this.removeSelectedGame} />
-          </div>
-          {/* <Group /> */}
-          {/* <LeagueButtons leagues={this.state.leagues} switchLeague = {this.switchLeague} /> */}
-        </div>
-
+        {this.toggleProfileShown()}
 
       </div>
     );
