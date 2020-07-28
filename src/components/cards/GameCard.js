@@ -21,10 +21,8 @@ export default function GameCard(props) {
                 <div className = "game-card" key={game.idEvent}>
                 <h3>{game.strEventAlternate}</h3>
                     {eventDate}
-                    <div className="game-button-container">
                         {awayButton}
                         {homeButton}
-                    </div>
                 </div>
             )
         } else {
@@ -32,10 +30,8 @@ export default function GameCard(props) {
                 <div className = "game-card" key={game.idEvent}>
                     <h3>{game.strHomeTeam} vs. {game.strAwayTeam}</h3>
                     {eventDate}                    
-                    <div className="game-button-container">
                         {homeButton}
                         {awayButton}
-                    </div>
                 </div>
             )
 

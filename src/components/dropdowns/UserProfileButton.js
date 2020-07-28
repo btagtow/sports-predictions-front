@@ -11,7 +11,7 @@ export default function UserProfileButton(props) {
     return (
         <div className="dropdown">
             
-            <button className="dropdown-button" onClick={handleClick}>
+            <button className="dropdown-button" id="profile-button" onClick={handleClick}>
                 {!isProfile ? "Profile" : "Games"}
                 
             </button>

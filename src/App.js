@@ -247,7 +247,9 @@ class App extends Component {
     return (
 
       <div className="App">
-        <h1 className="headline">Sports Predictor</h1>
+        <div className="headline-container">
+          <h1 className="headline" >Sports Predictor</h1>
+        </div>
         <div className="dropdown-and-forms">
           <div className="dropdown-container">
             {this.state.isLoggedIn ? <UserProfileButton toggleMainContainer={this.toggleMainContainer} isProfile={this.state.isProfile} /> : null}
