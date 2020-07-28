@@ -30,7 +30,7 @@ export default function SelectedGame(props) {
         addPoints(5)
     }
     const addTenPoints = () => {
-        setPoints(points+5)
+        setPoints(points+10)
         addPoints(10)
     }
     return (

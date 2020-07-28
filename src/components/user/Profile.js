@@ -2,12 +2,12 @@ import React from 'react'
 import UserPicks from './UserPicks'
 
 export default function Profile(props) {
-    const {userProfile, refreshUserProfile, deleteGame} = props
+    const {userProfile, refreshUserProfile, betting_points, deleteGame} = props
 
     const gameSelections = () => {
         return userProfile.game_selections.map(game => {
             // console.log(game)
-            return <UserPicks game={game} deleteGame={deleteGame}  />
+            return <UserPicks game={game} deleteGame={deleteGame} refreshUserProfile={refreshUserProfile}  />
         })
     }
 
@@ -17,7 +17,7 @@ export default function Profile(props) {
     return (
         <div>
             <h1>{userProfile.username}</h1>
-            <h4>Betting points: {userProfile.betting_points}</h4>
+            <h4>Betting points: {betting_points}</h4>
             <section>Your picks 
                 <button className="refresh-button" onClick={handleClick}> 
                     

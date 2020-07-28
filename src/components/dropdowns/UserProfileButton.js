@@ -1,11 +1,12 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 export default function UserProfileButton(props) {
 
-    const { toggleMainContainer, isProfile } = props
+    const { toggleMainContainer, isProfile, refreshUserProfile } = props
 
     const handleClick = () => {
         toggleMainContainer()
+        refreshUserProfile()
     }
 
     return (

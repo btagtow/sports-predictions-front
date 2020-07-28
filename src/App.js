@@ -4,9 +4,11 @@ import './App.css';
 import GameListings from './components/containers/GameListings'
 import SelectedGames from './components/containers/SelectedGames'
 import LeagueDropdown from './components/dropdowns/LeagueDropdown'
+import About from './components/About'
 import Auth from './components/auth/Auth'
 import UserProfileButton from './components/dropdowns/UserProfileButton';
 import Profile from './components/user/Profile';
+import MainContainer from './components/containers/MainContainerLoggedIn';
 
 const selectedGamesURL = `http://localhost:3000/game_selections`
 
@@ -47,7 +49,8 @@ class App extends Component {
     failedToFetch: [],
     isLoggedIn: false,
     isProfile: false,
-    currentUserProfile: {}
+    currentUserProfile: {},
+    currentBettingPoints: 0
     // loginForm: false,
     // signupForm: false
     //failed to fetch identified by league id 
@@ -66,27 +69,36 @@ class App extends Component {
     }
   }
 
+  
+
   submitSelectedGame = (game) => {
     if (this.state.isLoggedIn){
+      if (this.state.currentBettingPoints - game.points_allocated >= 0){
+        fetch(selectedGamesURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.token}`
+          },
+          body: JSON.stringify(game)
+        })
+        .then(response => response.json())
+        .then(result => {
+          result.message === "Accepted" ? alert("Selection submitted") : alert("Failed to submit, try refreshing the page")
+        })
+        .then(this.updateSelectedGames(game))
+        .then(
+          this.adjustUserBettingPoints(this.state.currentBettingPoints - game.points_allocated) 
+          )
+      } else alert("Not enough betting points to make a pick.")
 
       
-      fetch(selectedGamesURL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.token}`
-        },
-        body: JSON.stringify(game)
-      })
-      .then(response => response.json())
-      .then(result => {
-        result.message === "Accepted" ? alert("Selection submitted") : alert("Failed to submit, try refreshing the page")
-      })
-      .then(this.updateSelectedGames(game))
     } else {
       alert("Log in to submit your picks")
     }
   }
+
+  
 
   //removes game on selection menu
   removeSelectedGame = (game) => {
@@ -155,7 +167,7 @@ class App extends Component {
   currentLeague = () => this.state.leagues.find(league => league.selected === true)
 
   updateSelectedGames = (game) => {
-    let newSelectedGames = this.state.selectedGames.filter(selectedGame => game.id !== selectedGame.id)
+    let newSelectedGames = this.state.selectedGames.filter(selectedGame => game.idEvent !== selectedGame.idEvent)
     this.setState({
       selectedGames: newSelectedGames
     })
@@ -183,15 +195,12 @@ class App extends Component {
       if (this.state.isProfile) {
         return (
           <div className="main-container">
-            <Profile userProfile={this.state.currentUserProfile} refreshUserProfile={this.refreshUserProfile} deleteGame={this.deleteGame}/>
+            <Profile userProfile={this.state.currentUserProfile} betting_points={this.state.currentBettingPoints} refreshUserProfile={this.refreshUserProfile} deleteGame={this.deleteGame}/>
           </div>
           )
       } else if (!this.state.isProfile){ 
         return (
-          <div>
-            <h4>Your available betting points: {this.state.currentUserProfile.betting_points}</h4>
-            {regularContainer}
-          </div>
+          <MainContainer betting_points={this.state.currentBettingPoints} regularContainer={regularContainer} />
         )
         
       } else {
@@ -212,7 +221,8 @@ class App extends Component {
 
     setUserProfile = (user) => {
       this.setState({
-        currentUserProfile: user
+        currentUserProfile: user, 
+        currentBettingPoints: user.betting_points
       })
     }
 
@@ -226,14 +236,21 @@ class App extends Component {
       })
         .then(response => response.json())
         .then(result => this.setState({currentUserProfile: result}))
-          // {
-          // this.setState({
-          //   currentUserProfile:result
-          // })
-        
-      
     }
-
+    adjustUserBettingPoints = (newBettingPoints) => {
+      fetch(`http://localhost:3000/users/${localStorage.user_id}`, {
+        method: "PUT", 
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.token}`
+        },
+        body: JSON.stringify({betting_points: newBettingPoints})
+        
+      })
+        .then(response => response.json())
+        .then(this.setState({currentBettingPoints: newBettingPoints}))
+        // .then(result => this.setState({currentUserProfile: result}))
+    }
 
     resetProfile = () => {
       this.setState({isProfile: false})
@@ -252,7 +269,8 @@ class App extends Component {
         </div>
         <div className="dropdown-and-forms">
           <div className="dropdown-container">
-            {this.state.isLoggedIn ? <UserProfileButton toggleMainContainer={this.toggleMainContainer} isProfile={this.state.isProfile} /> : null}
+            {/* <About /> */}
+            {this.state.isLoggedIn ? <UserProfileButton toggleMainContainer={this.toggleMainContainer} isProfile={this.state.isProfile} refreshUserProfile={this.refreshUserProfile} /> : null}
             <LeagueDropdown leagues={this.state.leagues} switchLeague = {this.switchLeague} resetProfile={this.resetProfile} isProfile={this.state.isProfile} />
             <Auth toggleLoggedin={this.toggleLoggedin} username={this.state.currentUserProfile.username} setUserProfile= {this.setUserProfile} resetProfile={this.resetProfile} />
           </div>
