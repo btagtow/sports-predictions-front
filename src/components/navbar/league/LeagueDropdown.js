@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LeagueButtons from '../containers/LeagueButtonsContainer';
+import LeagueButtons from './LeagueButtonsContainer';
 
 function LeagueDropdown(props) {
   const [isShown, setIsShown] = useState(false);

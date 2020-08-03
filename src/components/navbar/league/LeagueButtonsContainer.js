@@ -1,5 +1,5 @@
 import React from 'react'
-import LeagueButton from'../LeagueButton'
+import LeagueButton from'./LeagueButton'
 
 export default function LeagueButtons (props) {
     const leagues = props.leagues

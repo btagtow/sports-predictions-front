@@ -2,6 +2,8 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 
+import { Link } from 'react-router-dom'
+
 import { showProfile } from '../../actions/mainDisplay'
 
 function UserProfileButton(props) {
@@ -14,9 +16,11 @@ function UserProfileButton(props) {
     return (
         <div className="dropdown">
             
-            <button className="dropdown-button clickable" onClick={handleClick}>
-                Profile
-            </button>
+            <Link to='/profile'>
+                <button className="dropdown-button clickable" onClick={handleClick}>
+                    Profile
+                </button>
+            </Link>
         </div>
     )
 }

@@ -3,15 +3,16 @@ import './App.css';
 
 import { connect } from 'react-redux'
 
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import NavBar from './components/navbar/NavBar'
 
 import AllGamesContainer from './components/containers/AllGamesContainer'
 import LoggedOnDisplay from './components/containers/LoggedOnDisplay'
-import LeagueDropdown from './components/dropdowns/LeagueDropdown'
-import AboutButton from './components/dropdowns/AboutButton'
+// import LeagueDropdown from './components/dropdowns/LeagueDropdown'
+// import AboutButton from './components/dropdowns/AboutButton'
 import AboutPage from './components/AboutPage'
-import Auth from './components/auth/Auth'
-import UserProfileButton from './components/dropdowns/UserProfileButton';
+// import Auth from './components/auth/Auth'
+// import UserProfileButton from './components/dropdowns/UserProfileButton';
 import Profile from './components/user/Profile';
 
 const next15url = (id) => `https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${id}`
@@ -52,24 +53,6 @@ class App extends Component {
       {name: 'NBA', id: 4387, emoji: '🏀' , next15: [], last15: [], selected: false},
       {name: 'NHL', id: 4380, emoji: '🏒' , next15: [], last15: [], selected: false}, 
     ],
-  }
-
-  toggleMainContainer = () => {
-    const allGamesContainer = <AllGamesContainer currentLeague = {this.currentLeague()} adjustUserBettingPoints={this.adjustUserBettingPoints} />
-    switch (this.props.mainContainerDisplay){
-      case "about" : 
-        return <AboutPage /> 
-      case "profile" : 
-        return <Profile refreshUserProfile={this.refreshUserProfile} deleteGame={this.deleteGame}/>
-      case "games" : 
-        return (
-          <div>
-            {this.props.isLoggedIn ? <LoggedOnDisplay /> : null}
-            {allGamesContainer}
-          </div>
-        )
-        
-    }
   }
 
   
@@ -183,28 +166,37 @@ class App extends Component {
         
       })
     }
-    
 
   render(){
 
     return (
 
-      <div className="App">
-        <div className="headline-container">
-          <h1 className="headline" >The Broke Gambler</h1>
-        </div>
-          <p>Test your sports betting abilities</p>
-        <div className="dropdown-and-forms">
-          <div className="dropdown-container">
-            <AboutButton />
-            {this.props.isLoggedIn ? <UserProfileButton  /> : null}
-            <LeagueDropdown leagues={this.state.leagues} switchLeague = {this.switchLeague} />
-            <Auth />
+      <Router>
+        <div className="App">
+          <div className="headline-container">
+            <h1 className="headline" >The Broke Gambler</h1>
           </div>
-        </div>
-        {this.toggleMainContainer()}
+          <p>Test your sports betting abilities</p>
+          <NavBar switchLeague={this.switchLeague} leagues={this.state.leagues} />
+          
+          <Route exact path="/">
+            <AboutPage />
+          </Route> 
+          <Route exact path="/about">
+            <AboutPage />
+          </Route> 
+          <Route exact path="/profile">
+            <Profile refreshUserProfile={this.refreshUserProfile} deleteGame={this.deleteGame}/>
+          </Route> 
+          <Route exact path="/games">
+            <div>
+              {this.props.isLoggedIn ? <LoggedOnDisplay /> : null}
+              <AllGamesContainer currentLeague = {this.currentLeague()} adjustUserBettingPoints={this.adjustUserBettingPoints} />
+            </div>
+          </Route>
 
-      </div>
+        </div>
+      </Router>
       
     );
   }

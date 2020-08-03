@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import { showGames } from '../actions/mainDisplay'
+import { showGames } from '../../../actions/mainDisplay'
 
 function LeagueButton(props) { 
     const { id, name, emoji, league, handleChange } = props
@@ -15,10 +16,12 @@ function LeagueButton(props) {
         return (
 
             <div className="button-div">
-                <button className="drop-button" id={id} key={id} onClick={handleClick}> 
-                    {name}
-                    <span role="img" aria-label={name}>  {emoji}</span>
-                </button>
+                <Link to="/games">
+                    <button className="drop-button" id={id} key={id} onClick={handleClick}> 
+                        {name}
+                        <span role="img" aria-label={name}>  {emoji}</span>
+                    </button>
+                </Link>
             </div>
         )
     
