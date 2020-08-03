@@ -1,14 +1,17 @@
 import React from 'react'
 import UserPicks from './UserPicks'
 
-export default function Profile(props) {
-    const {userProfile, refreshUserProfile, deleteGame} = props
+import { connect } from 'react-redux'
+
+function Profile(props) {
+    const {refreshUserProfile, deleteGame} = props
 
     const gameSelections = () => {
-        return userProfile.game_selections.map(game => {
-            // console.log(game)
-            return <UserPicks game={game} deleteGame={deleteGame}  />
-        })
+        if (props.isLoggedIn){
+            return props.user.game_selections.map(game => {
+                return <UserPicks game={game} deleteGame={deleteGame} refreshUserProfile={refreshUserProfile}  />
+            })
+        }
     }
 
     const handleClick = () => {
@@ -16,9 +19,10 @@ export default function Profile(props) {
     }
     return (
         <div>
-            <h1>{userProfile.username}</h1>
-            <h4>Betting points: {userProfile.betting_points}</h4>
-            <section>Your picks 
+            <h1>{props.user.username}</h1>
+            <h4>Betting points: {props.user.betting_points}</h4>
+            
+            <section>Your selections:
                 <button className="refresh-button" onClick={handleClick}> 
                     
                     <span role="img" aria-label="refresh">🔄</span>
@@ -30,3 +34,21 @@ export default function Profile(props) {
         </div>
     )
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+
+
+function mapStateToProps(state){
+    return {
+        isLoggedIn: state.isLoggedIn,
+        user: state.user
+    }
+  }
+
+  function mapDispatchToProps(dispatch){
+      return{
+          refresh: (user) => dispatch({type: "REFRESH_PROFILE", payload: user})
+      }
+  }
+  
+  

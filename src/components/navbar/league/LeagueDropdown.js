@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import LeagueButtons from '../containers/LeagueButtonsContainer';
+import LeagueButtons from './LeagueButtonsContainer';
 
 function LeagueDropdown(props) {
   const [isShown, setIsShown] = useState(false);
 
-  const {leagues, switchLeague, resetProfile, isProfile} = props
+  const {leagues, switchLeague, resetProfile, isProfile, aboutOff } = props
 
 
   return (
@@ -18,7 +18,7 @@ function LeagueDropdown(props) {
       </button>
       {isShown && (
         <div>
-          <LeagueButtons leagues={leagues} switchLeague = {switchLeague} resetProfile={resetProfile}/>
+          <LeagueButtons leagues={leagues} switchLeague = {switchLeague} resetProfile={resetProfile} aboutOff={aboutOff}/>
         </div>
       )}
     </div>
