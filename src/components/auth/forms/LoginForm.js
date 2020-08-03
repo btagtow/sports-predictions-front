@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 const loginURL = 'http://localhost:3000/login'
 
@@ -14,6 +15,10 @@ class Login extends React.Component {
         this.setState({ [name] : value })
     }
 
+    addUser = (user) => {
+        this.props.logIn(user)
+    }
+
     handleSubmit = event => {
         event.preventDefault()
 
@@ -27,42 +32,17 @@ class Login extends React.Component {
         .then(response => {
             return response.status === 200 ? response.json() : response.status
         })
-        
         .then(result => {
             if (result.token){
+                this.addUser(result.user)
                 localStorage.setItem("token", result.token) 
                 localStorage.setItem("user_id", result.user_id) 
-                this.props.toggleIsLoggedIn()
-                this.props.setUserProfile(result.user)
             } else {
                 alert("Username or password incorrect")
             }
                 
         }) 
-        // localStorage.setItem("token", result.token))
-        //     }  else  {
-        //         alert(response.message)
-        //         localStorage.clear()
-        //     }
-        //         // alert(response.message) 
-        //         // this.setState({username: "", password: ""})
-        // })
 
-            // if (response.status === 200) {
-            //     this.setState({error: ""})
-            //     localStorage.setItem("token", response.token)
-            //     // return response.json()
-            // } else if (response.status === 401) {
-            //     throw new Error("Something wrong with username or password")
-            // } else {
-            //     console.log(response.token) 
-            // }
-        //ANOTHER POSSIBILITY!
-        // localStorage.setItem("token", result.token)
-        // .then(result => {
-        //     console.log(result)
-        //     localStorage.setItem("token", result.token)
-        // })
         .catch(error => this.setState({error: error.message}))
 
     }
@@ -103,4 +83,16 @@ class Login extends React.Component {
     }
 }
 
-export default Login
+function mapStateToProps(state){
+    return {
+        isLoggedIn: state.isLoggedIn
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        logIn: (user) => dispatch({type: "LOG_IN", payload: user})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

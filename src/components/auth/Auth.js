@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import {connect} from 'react-redux'
 import LoginForm from './forms/LoginForm'
 import SignupForm from './forms/SignupForm'
 
@@ -14,15 +15,13 @@ function Auth(props) {
 
     const toggleIsLoggedIn = () => {
         setIsLoggedIn(true)
-        return props.toggleLoggedin(true)
     }
 
     const logout = () => {
+        props.logout()
         localStorage.clear()
         setIsLoggedIn(false)
         setIsShown(false)
-        props.resetProfile()
-        props.toggleLoggedin(false)
     }
 
     const pointer = (event) => {
@@ -33,10 +32,10 @@ function Auth(props) {
     <div 
         className="dropdown"         
     >
-        <button className="dropdown-button" onClick={toggleShown} onMouseOver={event => pointer(event)} >
-        {isLoggedIn ? `Log out (${props.username})` : "Login or create account"}
+        <button className="dropdown-button clickable" onClick={!props.isLoggedIn ? toggleShown : logout} onMouseOver={event => pointer(event)} >
+        {props.isLoggedIn ? `Log out (${props.user.username})` : "Login or create account"}
         </button>
-        {isShown && !isLoggedIn && (
+        {isShown && !props.isLoggedIn && (
             <div className="forms-container">
                 {isLoginShown ? <LoginForm toggleIsLoggedIn={toggleIsLoggedIn} setUserProfile={props.setUserProfile}/> : <SignupForm setisLoginShown={setisLoginShown}/>}
                 <button onClick={toggleLogin}>{isLoginShown ? "Create an account" : "Already have an account?"}</button>
@@ -46,7 +45,17 @@ function Auth(props) {
     );
 }
 
-export default Auth;
+function mapStateToProps(state){
+    return {
+        isLoggedIn: state.isLoggedIn,
+        user: state.user
+    }
+}
 
+function mapDispatchToProps(dispatch){
+    return {
+        logout: () => dispatch({type: "LOG_OFF"})
+    }
+}
 
-
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)

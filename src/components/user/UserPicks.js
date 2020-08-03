@@ -17,6 +17,7 @@ export default function SelectedGame(props) {
                 <h2>Selected winner: 
                     <br></br> 
                     {game.selectedWinnerString ? game.selectedWinnerString : "No winner"}
+                    {game.completed ? <p>COMPLETED</p> : null}
                 </h2>
                 <h4>Allocated points: {game.points_allocated}</h4>
                 <button onClick={handleRemove} className="game-button">Remove Selection</button>

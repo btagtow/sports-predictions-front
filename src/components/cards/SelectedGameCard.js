@@ -2,8 +2,6 @@ import React, {useState} from 'react'
 
 export default function SelectedGame(props) {
 
-
-
     const { game, submitSelectedGame, removeSelectedGame } = props
 
     const [points, setPoints] = useState(game.bettingPoints)
@@ -18,6 +16,7 @@ export default function SelectedGame(props) {
 
     function addPoints(num) {
         game.bettingPoints = parseInt(game.bettingPoints + num)
+        console.log(game)
         return game 
     }
 
@@ -40,9 +39,9 @@ export default function SelectedGame(props) {
                     <br></br> 
                     {game.selectedWinnerString}
                 </h3>
-                    <button onClick={addOnePoint}>Wager 1 point</button>
-                    <button onClick={addFivePoints}>Wager 5 points</button>
-                    <button onClick={addTenPoints}>Wager 10 points</button>
+                    <button onClick={addOnePoint} className="game-button">Wager 1 point</button>
+                    <button onClick={addFivePoints} className="game-button">Wager 5 points</button>
+                    <button onClick={addTenPoints} className="game-button">Wager 10 points</button>
                     <br></br>
                     <button onClick={handleSubmit} className="game-button">Submit Selection</button>
                     <button onClick={handleRemove} className="game-button">Remove Selection</button>

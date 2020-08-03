@@ -1,10 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-export default function LeagueButton({ id, name, emoji, league, handleChange, resetProfile }) { 
+import { showGames } from '../actions/mainDisplay'
+
+function LeagueButton(props) { 
+    const { id, name, emoji, league, handleChange } = props
 
     function handleClick(){
+        props.gamesOn()
         league.selected = true
-        resetProfile()
         return handleChange(league)
     }
     
@@ -19,3 +23,10 @@ export default function LeagueButton({ id, name, emoji, league, handleChange, re
         )
     
 }
+
+function mapDispatchToProps(dispatch){
+    return{
+        gamesOn: () => showGames(dispatch)
+    }
+}
+export default connect(null, mapDispatchToProps)(LeagueButton)

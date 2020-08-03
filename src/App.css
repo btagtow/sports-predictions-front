@@ -1,13 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Rose&display=swap');
+
 .headline-container{
   display: flex;
   justify-content: center;
+  /* flex-direction: column; */
 }
 .headline{
   font-family: 'Bebas Neue', cursive;
   font-size: 53px;
   width: 400px;
+  height: 40px;
   cursor: pointer;
+  display: flex;
+
+  justify-content: center;
+}
+p{
+  font-family: 'Red Rose', cursive;
+
+}
+
+h3{
+  font-family: 'Red Rose', cursive;
+}
+h4{
+  font-family: 'Red Rose', cursive;
+}
+
+.about-h1{
+  font-family: 'Red Rose', cursive;
 
 }
 body {
@@ -61,7 +83,7 @@ body {
   color: black;
   cursor: pointer;
 }
-#profile-button{
+.clickable{
   cursor: pointer;
 }
 .error-message{
@@ -110,7 +132,6 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin: 0 20% 0 20% 
 }
 .game-listings-selected{
   display: flex;
@@ -129,8 +150,9 @@ body {
 }
 .game-button{
   padding: 0 10px 0 10px;
-  background-color: rgb(114, 114, 114);
+  background-color: rgb(114, 100, 114);
   color: white;
+  border-radius: 75px;
 }
 .game-button:hover{
   background-color: maroon;

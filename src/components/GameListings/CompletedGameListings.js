@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import GameCard from '../cards/GameCard'
+import React from 'react'
+import CompletedGameCard from '../cards/CompletedGameCard'
 
-export default function GameListings(props) {
+export default function PastGameListings(props) {
 
     const { currentLeague , selectGame } = props
 
-    const gameList = currentLeague.games
+    const gameList = currentLeague.last15
 
     const leagueName = currentLeague.name
 
-    const upcomingGamesMessage = <h3>Upcoming {leagueName} games:</h3>
+    const upcomingGamesMessage = <h3>Past {leagueName} games:</h3>
     const noUpcomingGamesMessage =  <h3 className="no-games-message">No {leagueName} games available on our partner's database: 
                                     <br></br> 
                                     https://www.thesportsdb.com/.
@@ -20,7 +20,7 @@ export default function GameListings(props) {
     const games = (
         gameList.map(game => {
             return (
-                    <GameCard game={game} key={game.idEvent}  selectGame= {selectGame} />
+                    <CompletedGameCard game={game} key={game.idEvent}  selectGame= {selectGame} />
             )
         })
     )
