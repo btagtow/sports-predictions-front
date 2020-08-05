@@ -1,8 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import CompletedGameListings from '../GameListings/CompletedGameListings'
 import UpcomingAndSelectedGamesContainer from './UpcomingAndSelectedGamesContainer'
 
-export default function AllGamesContainer(props) {
+function AllGamesContainer(props) {
     const {currentLeague, isLoggedIn, adjustUserBettingPoints } = props
     return (
         <div className="all-games-container">
@@ -11,3 +13,9 @@ export default function AllGamesContainer(props) {
         </div>
     )
 }
+function mapStateToProps(state){
+    return{
+        allLeagues: state.leagues
+    }
+}
+export default connect(mapStateToProps, null)(AllGamesContainer)

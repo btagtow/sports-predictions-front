@@ -1,5 +1,5 @@
 import React from 'react'
-import UpcomingGameCard from '../cards/UpcomingGameCard'
+import UpcomingGameCard from '../gamecards/UpcomingGameCard'
 
 export default function UpcomingGameListings(props) {
 
@@ -21,7 +21,7 @@ export default function UpcomingGameListings(props) {
     const games = (
         gameList.map(game => {
             return (
-                    <UpcomingGameCard game={game} key={game.idEvent}  selectGame= {selectGame} />
+                <UpcomingGameCard game={game} key={game.idEvent}  selectGame= {selectGame} />
             )
         })
     )

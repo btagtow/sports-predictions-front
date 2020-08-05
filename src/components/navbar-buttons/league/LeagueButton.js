@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { showGames } from '../../../actions/mainDisplay'
+import { showGames } from '../../../redux/actions/mainDisplay'
 
 function LeagueButton(props) { 
     const { id, name, emoji, league, handleChange } = props

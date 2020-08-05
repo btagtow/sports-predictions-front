@@ -1,5 +1,5 @@
 import React from 'react'
-import CompletedGameCard from '../cards/CompletedGameCard'
+import CompletedGameCard from '../gamecards/CompletedGameCard'
 
 export default function PastGameListings(props) {
 

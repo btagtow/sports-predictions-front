@@ -38,7 +38,7 @@ function Auth(props) {
         {isShown && !props.isLoggedIn && (
             <div className="forms-container">
                 {isLoginShown ? <LoginForm toggleIsLoggedIn={toggleIsLoggedIn} setUserProfile={props.setUserProfile}/> : <SignupForm setisLoginShown={setisLoginShown}/>}
-                <button onClick={toggleLogin}>{isLoginShown ? "Create an account" : "Already have an account?"}</button>
+                <button className="auth-button" onClick={toggleLogin}>{isLoginShown ? "Create an account" : "Already have an account?"}</button>
             </div>
         )}
     </div>

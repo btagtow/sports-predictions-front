@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 
 import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import NavBar from './components/navbar/NavBar'
+import { fetchUpcomingGames } from './redux/actions/leagues'
 
+import NavBar from './components/containers/NavBar'
 import AllGamesContainer from './components/containers/AllGamesContainer'
-import LoggedOnDisplay from './components/containers/LoggedOnDisplay'
-// import LeagueDropdown from './components/dropdowns/LeagueDropdown'
-// import AboutButton from './components/dropdowns/AboutButton'
+import LoggedOnDisplay from './components/user/LoggedOnDisplay'
 import AboutPage from './components/AboutPage'
-// import Auth from './components/auth/Auth'
-// import UserProfileButton from './components/dropdowns/UserProfileButton';
 import Profile from './components/user/Profile';
 
 const next15url = (id) => `https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${id}`
@@ -55,7 +52,6 @@ class App extends Component {
     ],
   }
 
-  
   //deletes pick that has been submitted
   deleteGame = game => {
     fetch(`http://localhost:3000/game_selections/${game.id}`, {
@@ -70,6 +66,7 @@ class App extends Component {
 
   
   leagueIndex = leagueId => this.state.leagues.findIndex(league =>  league.id === leagueId )
+
 
   switchLeague = (id) => {
     let newLeagues = [...this.state.leagues]
@@ -111,10 +108,13 @@ class App extends Component {
       let league = this.leagueIndex(leagueId)
       let newLeagues = [...this.state.leagues]
       newLeagues[league] = {...newLeagues[league], next15: games.events} 
-      this.setState({
-        leagues: newLeagues
-      })
+      // this.setState({
+      //   leagues: newLeagues
+      // })
     }
+
+      return this.props.addUpcomingGames(games.events,leagueId)
+    
   }
 
   addCompletedGames = (games, leagueId) => {
@@ -167,6 +167,9 @@ class App extends Component {
       })
     }
 
+    handleClick() {
+      this.props.fetchUpcomingGames()
+    }
   render(){
 
     return (
@@ -177,7 +180,8 @@ class App extends Component {
             <h1 className="headline" >The Broke Gambler</h1>
           </div>
           <p>Test your sports betting abilities</p>
-          <NavBar switchLeague={this.switchLeague} leagues={this.state.leagues} />
+          <button onClick={event => this.handleClick(event)}>GIVE ME GAMES</button>
+          <NavBar leagues ={this.state.leagues} switchLeague={this.switchLeague}/>
           
           <Route exact path="/">
             <AboutPage />
@@ -209,13 +213,18 @@ function mapStateToProps(state){
       isLoggedIn: state.isLoggedIn,
       user: state.user, 
       mainContainerDisplay: state.mainContainerDisplay,
-  }
+      upcomingGames: state.leaguesReducer.upcomingGames,
+      requesting: state.leaguesReducer.requesting
+    }
 }
 
 function mapDispatchToProps(dispatch){
   return {
       refreshProfile: (user) => dispatch({type: "REFRESH_PROFILE", payload: user}), 
       adjustUserBettingPoints: (points) => dispatch({type: "ADJUST_POINTS", payload: points}),
+      addUpcomingGames: (games, leagueId) => dispatch({type: "ADD_UPCOMING_GAMES", games, leagueId }),
+      addCompletedGames: (games, leagueId) => dispatch({type: "ADD_COMPLETED_GAMES", games, leagueId }),
+      fetchUpcomingGames: () => dispatch(fetchUpcomingGames()) 
   }
 }
 

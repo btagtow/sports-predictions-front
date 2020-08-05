@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 
 const selectedGamesURL = `http://localhost:3000/game_selections`
 
-class SelectedGamesContainer extends Component {
+class UpcomingAndSelected extends Component {
     state = {
         selectedGames: []
     }
@@ -74,15 +74,8 @@ class SelectedGamesContainer extends Component {
 function mapStateToProps(state){
   return {
       isLoggedIn: state.isLoggedIn,
-      user: state.user,
-      selectedGames: []
+      user: state.user
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return{
-    selectGame: game => dispatch({type: "SELECT_GAME", game})
-  }
-}
-
-export default connect(mapStateToProps, null)(SelectedGamesContainer)
+export default connect(mapStateToProps, null)(UpcomingAndSelected)

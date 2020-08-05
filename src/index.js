@@ -4,12 +4,12 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux'
-import store from './store'
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import {reducer} from './redux/reducers/index'
+const store = createStore(reducer, applyMiddleware(thunk));
 
-// window.onbeforeunload = function() {
-//   localStorage.removeItem("token");
-//   return;
-// };
+console.log(store.getState())
 
 ReactDOM.render(
   <React.StrictMode>
