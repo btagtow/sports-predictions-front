@@ -50,7 +50,7 @@ class Signup extends React.Component {
         return (
             <div className="form">
 
-                <form className = "signup" onSubmit={this.handleSubmit}>
+                <form className = "auth-form signup" onSubmit={this.handleSubmit}>
                     <input
                         type="username"
                         name="username"

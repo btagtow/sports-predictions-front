@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { Link } from 'react-router-dom'
 
-import { showProfile } from '../../actions/mainDisplay'
+import { showProfile } from '../../redux/actions/mainDisplay'
 
 function UserProfileButton(props) {
 

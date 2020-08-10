@@ -47,6 +47,7 @@ body {
   height: 100px;
   background-color: black;
   color: black;
+  height: 8rem;
 }
 .dropdown-container {
   display: flex;
@@ -56,7 +57,7 @@ body {
   background-color: black;
   color: white;
   padding: 10px;
-  width: 400px;
+  width: 350px;
 }
 .dropdown-button:hover{
   color: black;
@@ -89,16 +90,15 @@ body {
 .error-message{
   color: white;
 }
-.form{
-  width: 400px;
-  display: flex;
-  justify-content: center;
-  padding-top:5px
+.forms-container{
+  padding-bottom: 20px;
+}
+.auth-form{
+  display:flex;
+  flex-direction: column;
+  width: 350px;
+}
 
-}
-.auth-button{
-  width: 70px
-}
 .error-message{
   color: white;
 }

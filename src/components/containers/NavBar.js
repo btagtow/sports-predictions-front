@@ -2,9 +2,9 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 
-import AboutButton from './AboutButton'
-import UserProfileButton from './UserProfileButton'
-import LeagueDropdown from './league/LeagueDropdown'
+import AboutButton from '../navbar-buttons/AboutButton'
+import UserProfileButton from '../navbar-buttons/UserProfileButton'
+import LeagueDropdown from '../navbar-buttons/league/LeagueDropdown'
 import Auth from '../auth/Auth'
 
 
@@ -15,7 +15,7 @@ function NavBar(props) {
             <div className="dropdown-container">
                 <AboutButton />
                 {props.isLoggedIn ? <UserProfileButton  /> : null}
-                <LeagueDropdown leagues={props.leagues} switchLeague = {props.switchLeague} />
+                <LeagueDropdown />
                 <Auth />
             </div>
         </div>

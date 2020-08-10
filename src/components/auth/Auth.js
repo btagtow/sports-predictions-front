@@ -18,7 +18,7 @@ function Auth(props) {
     }
 
     const logout = () => {
-        props.logout()
+        props.logout()        
         localStorage.clear()
         setIsLoggedIn(false)
         setIsShown(false)
@@ -38,7 +38,7 @@ function Auth(props) {
         {isShown && !props.isLoggedIn && (
             <div className="forms-container">
                 {isLoginShown ? <LoginForm toggleIsLoggedIn={toggleIsLoggedIn} setUserProfile={props.setUserProfile}/> : <SignupForm setisLoginShown={setisLoginShown}/>}
-                <button onClick={toggleLogin}>{isLoginShown ? "Create an account" : "Already have an account?"}</button>
+                <button className="auth-button" onClick={toggleLogin}>{isLoginShown ? "Create an account" : "Already have an account?"}</button>
             </div>
         )}
     </div>
@@ -54,7 +54,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return {
-        logout: () => dispatch({type: "LOG_OFF"})
+        logout: () => dispatch({type: "LOG_OFF"}),
+
     }
 }
 

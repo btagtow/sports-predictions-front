@@ -1,5 +1,5 @@
-function showAbout(dispatch){
-    dispatch({type: "ABOUT"})
+function showAbout(){
+    return dispatch => dispatch({type: "ABOUT"})
 }
 
 function showProfile(dispatch){

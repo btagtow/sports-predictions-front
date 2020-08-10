@@ -4,10 +4,10 @@ export default function SelectedGame(props) {
 
     const { game, submitSelectedGame, removeSelectedGame } = props
 
-    const [points, setPoints] = useState(game.bettingPoints)
+    const [points, setPoints] = useState(game.points_allocated)
 
     function handleSubmit(){
-        submitSelectedGame({...game, points_allocated: points})
+        submitSelectedGame(game)
     }
 
     function handleRemove(){
@@ -15,7 +15,7 @@ export default function SelectedGame(props) {
     } 
 
     function addPoints(num) {
-        game.bettingPoints = parseInt(game.bettingPoints + num)
+        game.points_allocated = parseInt(game.points_allocated + num)
         console.log(game)
         return game 
     }

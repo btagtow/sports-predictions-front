@@ -4,12 +4,18 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux'
-import store from './store'
+import { createStore, compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import {rootReducer} from './redux/reducers/index'
 
-// window.onbeforeunload = function() {
-//   localStorage.removeItem("token");
-//   return;
-// };
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  rootReducer,
+  composeEnhancer(applyMiddleware(thunk)),
+);
+
+console.log(store.getState())
 
 ReactDOM.render(
   <React.StrictMode>

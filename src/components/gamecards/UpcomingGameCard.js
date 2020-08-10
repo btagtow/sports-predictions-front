@@ -6,7 +6,7 @@ export default function GameCard(props) {
     function handleClick(event){
         game.selectedWinnerId = event.target.id
         game.selectedWinnerString = event.target.value
-        game.bettingPoints = 0
+        game.points_allocated = 0
         return selectGame(game)
     }
 

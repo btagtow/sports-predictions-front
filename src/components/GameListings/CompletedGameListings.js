@@ -1,11 +1,11 @@
 import React from 'react'
-import CompletedGameCard from '../cards/CompletedGameCard'
+import CompletedGameCard from '../gamecards/CompletedGameCard'
 
 export default function PastGameListings(props) {
 
     const { currentLeague , selectGame } = props
 
-    const gameList = currentLeague.last15
+    const gameList = currentLeague.pastGames ? currentLeague.pastGames : []
 
     const leagueName = currentLeague.name
 
@@ -22,11 +22,12 @@ export default function PastGameListings(props) {
             return (
                     <CompletedGameCard game={game} key={game.idEvent}  selectGame= {selectGame} />
             )
-        })
+        }) 
+        
     )
 
     const checkGames = gameList[0] ? upcomingGamesMessage : noUpcomingGamesMessage
-
+// 
     return (
             <div className = "card-container">
                 {checkGames}
