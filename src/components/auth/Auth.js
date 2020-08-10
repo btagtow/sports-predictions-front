@@ -18,7 +18,7 @@ function Auth(props) {
     }
 
     const logout = () => {
-        props.logout()
+        props.logout()        
         localStorage.clear()
         setIsLoggedIn(false)
         setIsShown(false)
@@ -54,7 +54,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return {
-        logout: () => dispatch({type: "LOG_OFF"})
+        logout: () => dispatch({type: "LOG_OFF"}),
+
     }
 }
 

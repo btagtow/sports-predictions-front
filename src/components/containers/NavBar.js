@@ -15,7 +15,7 @@ function NavBar(props) {
             <div className="dropdown-container">
                 <AboutButton />
                 {props.isLoggedIn ? <UserProfileButton  /> : null}
-                <LeagueDropdown leagues={props.leagues} switchLeague = {props.switchLeague} />
+                <LeagueDropdown />
                 <Auth />
             </div>
         </div>

@@ -9,9 +9,9 @@ function LeagueDropdown(props) {
 
   return (
     <div 
-    className="dropdown"         
-    onMouseEnter={() => setIsShown(true)}
-    onMouseLeave={() => setIsShown(false)}
+      className="dropdown"         
+      onMouseEnter={() => setIsShown(true)}
+      onMouseLeave={() => setIsShown(false)}
     >
       <button className="dropdown-button">
         {!isProfile ? "Select League" : "Make Picks"}

@@ -5,7 +5,7 @@ export default function UpcomingGameListings(props) {
 
     const { currentLeague , selectGame } = props
 
-    const gameList = currentLeague.next15
+    const gameList = currentLeague.upcomingGames ? currentLeague.upcomingGames : []
 
     const leagueName = currentLeague.name
 
@@ -26,11 +26,9 @@ export default function UpcomingGameListings(props) {
         })
     )
 
-    const checkGames = gameList[0] ? upcomingGamesMessage : noUpcomingGamesMessage
-
     return (
             <div className = "card-container">
-                {checkGames}
+                {gameList[0] ? upcomingGamesMessage : noUpcomingGamesMessage}
                 {games}
             </div>
     )

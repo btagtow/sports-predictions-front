@@ -2,15 +2,15 @@ import React from 'react'
 
 export default function SelectedGame(props) {
 
-    const { game, deleteGame, refreshUserProfile} = props
+    const { game, deleteSubmittedGame, refreshUserProfile} = props
 
     function handleRemove(){
-        deleteGame(game)
-        refreshUserProfile()
+        return (
+            deleteSubmittedGame(game),
+            refreshUserProfile()
+        )
     } 
     
-    console.log(game)
-
     return (
         <div className = "game-card" key={game.idEvent}>
                 <p>{game.strEventAlternate}</p>
