@@ -75,7 +75,7 @@ class Login extends React.Component {
                     />
 
                     <input type="submit" value="login" className="auth-button"/>
-                    {this.state.error ? <p className="error-message">{this.state.error}</p> : null}
+                    {this.state.error ? console.log(this.state.error) : null}
                 </form>
             </div>
             
