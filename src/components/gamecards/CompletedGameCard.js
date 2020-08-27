@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function GameCard(props) {
-    const {game, selectGame} = props
+    const {game} = props
 
     let homeScore = game.intHomeScore
     let awayScore = game.intAwayScore

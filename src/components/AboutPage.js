@@ -14,7 +14,7 @@ export default function AboutPage() {
             <p>This is a <b>"NO ODDS CASINO"</b> meaning regardless of the point spread, if you win your bet you will win the amount of betting points you placed on that game.</p>
             <p>Finally, select your profile at the top of the page to see your submitted games and the points you bet on them.</p>
             <p>We get our sports data through a crowd-sourced database. Please be patient with the results.</p>
-            <h3>Speaking of our database, head on over to <a href="https://www.thesportsdb.com/">https://www.thesportsdb.com/</a> and support them! </h3>
+            <h3>Speaking of our sports data, head on over to <a href="https://www.thesportsdb.com/">https://www.thesportsdb.com/</a> and support them! </h3>
             <h1 className="about-h1"> GOOD LUCK AND MAY THE BETTING POINTS BE EVER IN YOUR FAVOR</h1>
         </div>
 

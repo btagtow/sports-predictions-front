@@ -22,8 +22,8 @@ function ProfileContainer(props) {
 
     const handleDelete = game => {
         return (
-            props.adjustPoints(props.user.betting_points + game.points_allocated),
-            props.deleteSubmittedGame(game, props.user.game_selections)
+            props.deleteSubmittedGame(game), 
+            props.adjustPoints(props.user.betting_points + game.points_allocated)
         )
     }
 
@@ -57,7 +57,7 @@ function mapStateToProps(state){
   function mapDispatchToProps(dispatch){
       return{
         confirmUserData: () => dispatch(confirmUserData()), 
-        deleteSubmittedGame: (game) => dispatch(deleteSubmittedGame(game)), 
+        deleteSubmittedGame: (game, user) => dispatch(deleteSubmittedGame(game, user)), 
         logout: () => dispatch({type: "LOG_OFF"}),
         adjustPoints: (points) => dispatch(adjustPoints(points)),
 

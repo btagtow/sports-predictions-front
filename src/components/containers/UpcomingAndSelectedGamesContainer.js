@@ -6,8 +6,6 @@ import { submitGame, confirmUserData, adjustPoints } from '../../redux/actions/u
 
 import { connect } from 'react-redux'
 
-const selectedGamesURL = `http://localhost:3000/game_selections`
-
 class UpcomingAndSelected extends Component {
     state = {
         selectedGames: []
@@ -38,7 +36,6 @@ class UpcomingAndSelected extends Component {
     if (this.props.isLoggedIn){
       if (newPoints >= 0){
         return (
-          this.props.confirmUserData(), 
           this.props.submitGame(game),
           this.props.adjustPoints(newPoints),
           this.removeSelectedGame(game)
@@ -46,11 +43,11 @@ class UpcomingAndSelected extends Component {
       } else {
         alert("Not enough points for this selection")
     }
-  }
+  } else {alert("Please log in to make selections.")}
 }
       // console.log("game", game)
       // console.log("beting points", this.props.user.betting_points)
-      // console.log("newPoints", this.props.user.betting_points - game.points_allocated)
+      // console.log("newPoints", this.props.user.betting_points - game.betting_points)
     //   fetch(selectedGamesURL, {
     //     method: "POST",
     //     headers: {
@@ -65,7 +62,7 @@ class UpcomingAndSelected extends Component {
     // }
   
   //   if (this.props.isLoggedIn){
-  //     if (this.props.user.betting_points - game.points_allocated >= 0){
+  //     if (this.props.user.betting_points - game.betting_points >= 0){
   //       fetch(selectedGamesURL, {
   //         method: "POST",
   //         headers: {
@@ -80,7 +77,7 @@ class UpcomingAndSelected extends Component {
   //           return (
   //             // alert("Selection submitted"),
   //             // this.removeSelectedGame(game),
-  //             this.props.adjustUserBettingPoints(this.props.user.betting_points - game.points_allocated)
+  //             this.props.adjustUserBettingPoints(this.props.user.betting_points - game.betting_points)
   //             // this.props.refreshProfile()
   //           )
   //         } else {

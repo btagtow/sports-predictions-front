@@ -2,12 +2,12 @@
 //     dispatch({type: "REFRESH_PROFILE", payload: user})
 // }
 const selectedGamesURL = `http://localhost:3000/game_selections`
-const userURL = `http://localhost:3000/users/${localStorage.user_id}`
+// const userURL = `http://localhost:3000/users/${localStorage.user_id}`
 
 function confirmUserData(){
     return (dispatch) => {
         dispatch({type: "START_CONFIRMING_USER"});
-        fetch(userURL, {
+        fetch(`http://localhost:3000/users/${localStorage.user_id}`, {
             method: "GET", 
             headers: {
                     "Content-Type": "application/json",
@@ -32,18 +32,18 @@ function submitGame(game){
             body: JSON.stringify(game)
         }).then(response => response.json()
         ).then(r => {
+            console.log(r)
             if (r.message === "Accepted"){
-                dispatch({type: "SUBMIT_GAME", game: r.game_selection})
+                return dispatch({type: "SUBMIT_GAME", game: r.game_selection})
             } else (alert("Error submitting picks, please try again."))
         })
-        
     }        
 }
 
 function adjustPoints(newPoints){
     return (dispatch) => {
         dispatch({type: "START_ADJUSTING_POINTS"});
-        fetch(userURL, {
+        fetch(`http://localhost:3000/users/${localStorage.user_id}`, {
             method: "PUT", 
             headers: {
                 "Content-Type": "application/json",
@@ -52,13 +52,13 @@ function adjustPoints(newPoints){
             body: JSON.stringify({betting_points: newPoints})
         }).then(response => response.json()
         ).then(r => {
-            dispatch({type: "ADJUST_POINTS", betting_points: r.betting_points})
+            dispatch({type: "ADJUST_POINTS", betting_points: newPoints})
         })
 
     }
 }
 
-function deleteSubmittedGame(game, games){
+function deleteSubmittedGame(game){
     return dispatch => {
         dispatch({type: "START_DELETING_GAME"})
             fetch(`http://localhost:3000/game_selections/${game.id}`, {
@@ -72,8 +72,7 @@ function deleteSubmittedGame(game, games){
             let g = r.deleted_game
                 return dispatch({type: "DELETE_GAME", g})
             
-        }
-        )
+        })
     }
 }
 
