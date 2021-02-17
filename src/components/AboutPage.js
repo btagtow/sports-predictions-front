@@ -3,8 +3,8 @@ import React from 'react'
 export default function AboutPage() {
     return (
         <div>
-            <h1 className="about-h1"> This is a website made by broke gamblers, for broke gamblers.</h1>
-            <h3>Instructions:</h3>
+            {/* <h1 className="about-h1"> This is a website made by broke gamblers, for broke gamblers.</h1> */}
+            <h1 className="about-h1">Instructions:</h1>
             <p>First, you will want to create an account. You will be given 100 betting points. 
                 These are fictitious units with no monetary value. (But a heck of a lot of pride value!)</p>
             <p>Use your betting points to bet on your favorite sport! (Provided that sport is soccer, basketball, baseball, hockey, or football)</p>

@@ -46,7 +46,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="headline-container">
-            <h1 className="headline" >The Broke Gambler</h1>
+            <h1 className="headline" >Sports Predictor</h1>
           </div>
           <p>Test your sports betting abilities</p>
           <NavBar />

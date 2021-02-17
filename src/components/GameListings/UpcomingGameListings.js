@@ -11,11 +11,7 @@ export default function UpcomingGameListings(props) {
 
     const upcomingGamesMessage = <h3>Upcoming {leagueName} games:</h3>
     const noUpcomingGamesMessage =  
-    (<h3 className="no-games-message">No upcoming {leagueName} games available on our partner's database: 
-        <br></br> 
-        https://www.thesportsdb.com/.
-        <br></br> 
-        Please try another league.
+    (<h3 className="no-games-message">Upcoming games temporarily unavailable. Please come back soon!
     </h3>)
 
     const games = (
